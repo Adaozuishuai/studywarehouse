@@ -1,0 +1,35 @@
+{
+  "image": {
+    "size": [224, 224],
+    "mean": [0.48145466, 0.4578275, 0.40821073],
+    "std": [0.26862954, 0.26130258, 0.27577711]
+  },
+  "text": {
+    "tokenizer_name": "Qwen/Qwen-7B",
+    "max_length": 512,
+    "padding": false
+  },
+  "structured": {
+    "fields": [
+      {
+        "name": "age",
+        "kind": "continuous",
+        "mean": 40.0,
+        "std": 12.0,
+        "default": 30
+      },
+      {
+        "name": "gender",
+        "kind": "categorical",
+        "vocabulary": ["male", "female"],
+        "default": "female"
+      },
+      {
+        "name": "risk_level",
+        "kind": "categorical",
+        "vocabulary": ["low", "medium", "high"],
+        "default": "medium"
+      }
+    ]
+  }
+}
