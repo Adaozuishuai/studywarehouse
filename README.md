@@ -11,6 +11,35 @@
 
 _统一图片、文本、结构化数据的预处理与对齐流程，作为后续 LoRA + RAG 方案的第一步。_
 
+## 智能对话助手（企业级样板）
+
+`assistant_app/` 目录提供了将示例代码演进为企业级智能对话助手的骨架：
+
+- `config.py`：集中式配置，支持 `.env`/环境变量读取与必需密钥校验。
+- `data.py`：网页文档加载、分块与 FAISS 检索器构建。
+- `tools.py`：Tavily 搜索与基于向量库的维基百科检索工具注册。
+- `agent.py`：基于 LangGraph 的有记忆代理构建，可选接入 LangSmith 提示与追踪。
+- `main.py`：演示入口，展示工具绑定与多线程（多会话）记忆隔离的用法。
+- `mcp_server.py`：可选的 Model Context Protocol (MCP) 服务，将检索与搜索工具以标准化接口暴露给外部客户端。
+
+快速开始：
+
+```bash
+cp .env.example .env  # 填写 OpenAI/Tavily/LangSmith 等密钥
+python -m assistant_app.main
+
+# （可选）启动 MCP 服务，将工具暴露给兼容客户端
+python -m assistant_app.mcp_server
+```
+
+以上脚本会自动完成网页抓取、向量索引构建、工具装配，并输出多个 thread_id 的独立回答，方便接入企业客服、运营等场景。
+
+### 扩充维基百科知识库
+
+- 支持通过逗号分隔的 `SOURCE_URLS` 一次性抓取多篇维基百科文章（默认包含大熊猫、竹类、熊猫外交、栖息地保护等页面），自动合并到同一个向量检索库。
+- 兼容单一 `SOURCE_URL` 环境变量作为兜底配置，便于按需切换主题。
+- 所有页面会被自动分块（默认 1000/200）并写入 FAISS 索引，`wiki_search` 工具即可检索更丰富的百科知识。
+
 ## 目录
 
 1. [多模态预处理概览](#多模态预处理概览)
